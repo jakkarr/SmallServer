@@ -1,4 +1,6 @@
 package server;
+import basis.Server;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -16,7 +18,7 @@ public class CServer extends JFrame {
   // Anfang Attribute
   private JButton jButton1 = new JButton();
   private JLabel jLabel1 = new JLabel();
-  private ChatServer chatServer=new ChatServer();
+  private Server chatServer=new MyServer();
   // Ende Attribute
 
   // Ende Variablen

@@ -1,4 +1,6 @@
 package client;
+import basis.Client;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -15,7 +17,7 @@ public class CClient extends JFrame {
 
   // Anfang Attribute
   final String ENDE="*bye*";
-  private ChatClient hatChatClient;
+  private Client hatChatClient;
   private JLabel jLabel1 = new JLabel();
   private JTextField jTextField1 = new JTextField();
   private JButton jButton1 = new JButton();
@@ -23,8 +25,8 @@ public class CClient extends JFrame {
   private JScrollPane jScrollPanejTextArea1 = new JScrollPane();
   private JTextArea jTextArea1 = new JTextArea("");
   private JLabel jLabel2 = new JLabel();
-  private JTextField jTextField2 = new JTextField();
-  private JButton jButton3 = new JButton();
+  private JTextField userInput = new JTextField();
+  private JButton sendButton = new JButton();
   // Ende Attribute
 
   // Ende Variablen
@@ -75,14 +77,21 @@ public class CClient extends JFrame {
     jLabel2.setText("Nachricht");
     jLabel2.setFont(new Font("MS Sans Serif", Font.PLAIN, 13));
     cp.add(jLabel2);
-    jTextField2.setBounds(72, 304, 249, 24);
-    jTextField2.setText("");
-    cp.add(jTextField2);
-    jButton3.setBounds(328, 304, 110, 25);
-    jButton3.setText("Abschicken");
-    cp.add(jButton3);
+    userInput.setBounds(72, 304, 249, 24);
+    userInput.setText("");
+    userInput.addActionListener(new AbstractAction() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        sendMesasage();
+      }
 
-    jButton3.addActionListener(new ActionListener() {
+    });
+    cp.add(userInput);
+    sendButton.setBounds(328, 304, 110, 25);
+    sendButton.setText("Abschicken");
+    cp.add(sendButton);
+
+    sendButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent evt) {
         jButton3ActionPerformed(evt);
       }
@@ -100,7 +109,7 @@ public class CClient extends JFrame {
   public void jButton1ActionPerformed(ActionEvent evt) {
     String lServerIP=jTextField1.getText();
     if (lServerIP.length()>0) {
-       hatChatClient=new ChatClient(lServerIP, jTextArea1);
+       hatChatClient=new MyClient(lServerIP, jTextArea1);
     }
   }
 
@@ -109,10 +118,15 @@ public class CClient extends JFrame {
   }
 
   public void jButton3ActionPerformed(ActionEvent evt) {
-    String lNachricht=jTextField2.getText();
+    sendMesasage();
+  }
+
+  private void sendMesasage(){
+    String lNachricht= userInput.getText();
     if (lNachricht.length()>0) {
       hatChatClient.send(lNachricht);
     }
+    userInput.setText("");
   }
 
   // Ende Ereignisprozeduren
